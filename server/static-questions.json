@@ -1,0 +1,123 @@
+[
+  {
+    "prompt": "Berapa jumlah rukun sholat menurut mazhab Syafi'i?",
+    "options": [
+      "13",
+      "6",
+      "14",
+      "17"
+    ],
+    "correct": "13",
+    "explain": "Mazhab Syafi'i menghitung 13 rukun, atau 17 jika setiap tuma'ninah dihitung terpisah."
+  },
+  {
+    "prompt": "Manakah dari berikut ini yang TIDAK termasuk syarat sah sholat?",
+    "options": [
+      "Membaca surat pendek setelah Al-Fatihah",
+      "Sudah masuk waktu sholat",
+      "Suci dari hadats kecil dan besar",
+      "Menghadap kiblat"
+    ],
+    "correct": "Membaca surat pendek setelah Al-Fatihah",
+    "explain": "Membaca surat pendek hukumnya sunnah, bukan syarat sah. Syarat sah meliputi waktu, suci dari hadats dan najis, menutup aurat, dan menghadap kiblat."
+  },
+  {
+    "prompt": "Dalam mazhab Syafi'i, bacaan basmalah pada Al-Fatihah hukumnya?",
+    "options": [
+      "Wajib dibaca, termasuk ayat pertama",
+      "Sunnah, boleh ditinggalkan",
+      "Makruh dibaca keras",
+      "Bukan bagian dari bacaan sholat"
+    ],
+    "correct": "Wajib dibaca, termasuk ayat pertama",
+    "explain": "Menurut mazhab Syafi'i, basmalah termasuk bagian dari Al-Fatihah sehingga wajib dibaca."
+  },
+  {
+    "prompt": "Manakah berikut ini yang membatalkan sholat?",
+    "options": [
+      "Berbicara dengan sengaja di luar bacaan sholat",
+      "Membaca doa iftitah",
+      "Duduk tawarruk pada tahiyat akhir",
+      "Mengangkat tangan saat takbiratul ihram"
+    ],
+    "correct": "Berbicara dengan sengaja di luar bacaan sholat",
+    "explain": "Berbicara dengan sengaja di luar bacaan sholat termasuk hal yang membatalkan sholat."
+  },
+  {
+    "prompt": "Menurut mazhab Syafi'i, salam pertama hukumnya ____, sedangkan salam kedua ____.",
+    "options": [
+      "rukun; sunnah",
+      "sunnah; rukun",
+      "rukun; rukun",
+      "sunnah; sunnah"
+    ],
+    "correct": "rukun; sunnah",
+    "explain": "Salam pertama wajib (rukun), sedangkan salam kedua sunnah menurut mazhab Maliki dan Syafi'i."
+  },
+  {
+    "prompt": "Pada rakaat kedua sholat Subuh, mazhab Syafi'i menyunnahkan bacaan tambahan setelah i'tidal, yaitu doa…",
+    "options": [
+      "Qunut",
+      "Iftitah",
+      "Istiftah",
+      "Tasyahud"
+    ],
+    "correct": "Qunut",
+    "explain": "Mazhab Syafi'i menyunnahkan doa qunut pada rakaat kedua sholat Subuh, setelah i'tidal."
+  },
+  {
+    "prompt": "Posisi duduk pada tahiyat akhir menurut mazhab Syafi'i disebut…",
+    "options": [
+      "Tawarruk",
+      "Iftirasy",
+      "Bersila",
+      "Duduk di atas kedua tumit"
+    ],
+    "correct": "Tawarruk",
+    "explain": "Duduk tahiyat akhir dalam mazhab Syafi'i memakai posisi tawarruk, berbeda dengan tahiyat awal yang memakai iftirasy."
+  },
+  {
+    "prompt": "Posisi duduk pada tahiyat awal (sholat 3 atau 4 rakaat) menurut mazhab Syafi'i disebut…",
+    "options": [
+      "Iftirasy",
+      "Tawarruk",
+      "Bersila",
+      "Berbaring miring"
+    ],
+    "correct": "Iftirasy",
+    "explain": "Tahiyat awal memakai posisi iftirasy, yaitu duduk di atas telapak kaki kiri dengan kaki kanan ditegakkan."
+  },
+  {
+    "prompt": "Menurut mazhab Hanafi, jumlah rukun sholat ada…",
+    "options": [
+      "6",
+      "13",
+      "14",
+      "17"
+    ],
+    "correct": "6",
+    "explain": "Jumlah rukun berbeda karena cara mengelompokkan: Hanafi 6, Maliki 14, Syafi'i 13, Hambali 14."
+  },
+  {
+    "prompt": "Apa arti tuma'ninah, yang menjadi bagian dari rukun rukuk, i'tidal, sujud, dan duduk di antara dua sujud?",
+    "options": [
+      "Diam atau tenang sejenak dalam gerakan itu",
+      "Mempercepat gerakan sholat",
+      "Membaca doa dengan suara keras",
+      "Mengulang gerakan dua kali"
+    ],
+    "correct": "Diam atau tenang sejenak dalam gerakan itu",
+    "explain": "Tuma'ninah artinya diam sejenak dengan tenang pada setiap rukun gerakan, sebelum berpindah ke gerakan berikutnya."
+  },
+  {
+    "prompt": "Dalam sholat berjamaah menurut mazhab Syafi'i, makmum WAJIB menambahkan kata “ma'muuman” pada niatnya, sedangkan imam…",
+    "options": [
+      "tidak wajib menambahkan kata “imaaman”",
+      "juga wajib menambahkan kata “imaaman”",
+      "justru dilarang berniat berjamaah",
+      "harus mengikuti niat makmum"
+    ],
+    "correct": "tidak wajib menambahkan kata “imaaman”",
+    "explain": "Makmum wajib berniat ma'muuman, sedangkan imam tidak wajib menambahkan kata imaaman — tanpa itu sholatnya tetap sah, hanya dianggap sholat sendirian, bukan berjamaah."
+  }
+]

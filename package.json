@@ -1,0 +1,14 @@
+{
+  "name": "panduan-sholat",
+  "version": "2.0.0",
+  "description": "Panduan Tata Cara Sholat dengan login email, kuis, peringkat lomba, dan admin",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "seed": "node server/seed.js",
+    "test": "node server/test.js"
+  },
+  "engines": { "node": ">=22.13" },
+  "license": "MIT"
+}

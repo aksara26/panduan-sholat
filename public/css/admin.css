@@ -1,0 +1,20 @@
+.adm-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:20px}
+.adm-stat{background:var(--surface);border:1.5px solid var(--line);border-radius:18px;padding:16px}
+.adm-stat b{display:block;font-size:1.8rem;letter-spacing:-.02em}
+.adm-stat span{color:var(--muted);font-size:.9rem}
+.adm-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.adm-panel{margin-top:16px}
+.adm-table{width:100%;border-collapse:collapse;font-size:.95rem}
+.adm-table th,.adm-table td{padding:10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+.adm-table th{color:var(--muted);font-size:.85rem}
+.adm-actions{display:flex;flex-wrap:wrap;gap:6px}
+.adm-actions .btn{min-height:36px;padding:4px 12px;font-size:.9rem}
+.btn.danger{border-color:var(--danger);color:var(--danger)}
+.adm-form{background:var(--surface);border:1.5px solid var(--line);border-radius:18px;padding:18px;margin-bottom:18px}
+.adm-form label{display:block;margin:0 0 12px;font-weight:600;font-size:.9rem;color:var(--muted)}
+.adm-form label span{display:block;margin-bottom:4px}
+.adm-form textarea{min-height:90px}
+.adm-msg{margin:12px 0;padding:10px 12px;border-radius:12px;background:var(--turq-soft);color:var(--turq);font-weight:600}
+.adm-msg.err{background:var(--danger-soft);color:var(--danger)}
+.badge{display:inline-block;padding:2px 10px;border-radius:99px;background:var(--accent-soft);font-size:.8rem;font-weight:700}
+.badge.off{background:var(--danger-soft);color:var(--danger)}
