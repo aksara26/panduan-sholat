@@ -71,17 +71,103 @@ function renderIntro(){
 function startQuiz(){
   if (quiz.busy) return;
   quiz.busy = true;
-  API.post("/api/quiz/start").then(function(r){
-    quiz.attemptId = r.attemptId;
-    quiz.questions = r.questions;
-    quiz.i = 0; quiz.score = 0; quiz.answered = false;
-    renderQuestion();
-  }).catch(function(e){
-    renderIntro();
-    showError($("quizRoot"), e.message);
-  }).then(function(){ quiz.busy = false; });
+
+  API.post("/api/quiz/start", { action: "check" })
+    .then(function(r){
+      quiz.busy = false;
+
+      if (r.resume) {
+        showResumeChoice();
+        return;
+      }
+
+      beginQuiz("start");
+    })
+    .catch(function(e){
+      quiz.busy = false;
+      renderIntro();
+      showError($("quizRoot"), e.message);
+    });
 }
 
+function showResumeChoice(){
+  var root = $("quizRoot");
+  root.textContent = "";
+
+  var card = el("div","quiz-card quiz-intro");
+
+  card.appendChild(
+    el("p","quiz-big","Kuis sebelumnya masih tersimpan")
+  );
+
+  card.appendChild(
+    el(
+      "p",
+      "quiz-desc",
+      "Kamu masih memiliki kuis yang belum selesai. Kamu bisa melanjutkan kuis sebelumnya atau memulai kuis baru."
+    )
+  );
+
+  var row = el("div","quiz-row");
+
+  row.appendChild(
+    btn("btn primary","Lanjutkan Kuis",function(){
+      beginQuiz("continue");
+    })
+  );
+
+  row.appendChild(
+    btn("btn","Mulai Ulang",function(){
+      beginQuiz("restart");
+    })
+  );
+
+  card.appendChild(row);
+  root.appendChild(card);
+}
+
+function beginQuiz(action){
+  if (quiz.busy) return;
+
+  quiz.busy = true;
+
+  API.post("/api/quiz/start", { action: action })
+    .then(function(r){
+      quiz.attemptId = r.attemptId;
+      quiz.questions = r.questions || [];
+      quiz.i = 0;
+      quiz.score = Number(r.score || 0);
+      quiz.answered = false;
+
+      var answeredIds = new Set(
+        (r.answeredIds || []).map(function(id){
+          return Number(id);
+        })
+      );
+
+      while (
+        quiz.i < quiz.questions.length &&
+        answeredIds.has(Number(quiz.questions[quiz.i].id))
+      ) {
+        quiz.i++;
+      }
+
+      if (quiz.i >= quiz.questions.length) {
+        quiz.busy = false;
+        finishQuiz();
+        return;
+      }
+
+      renderQuestion();
+    })
+    .catch(function(e){
+      renderIntro();
+      showError($("quizRoot"), e.message);
+    })
+    .then(function(){
+      quiz.busy = false;
+    });
+}
 /* ---------- Soal ---------- */
 function renderQuestion(){
   var root = $("quizRoot");
