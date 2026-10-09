@@ -40,7 +40,10 @@ function renderBar(){
   }
   var out = el("button","chip","Keluar"); out.type = "button";
   out.addEventListener("click", function(){
-    API.post("/api/logout").then(function(){ setUser(null); });
+    API.post("/api/logout").then(function(){
+      if (document.documentElement.getAttribute("data-gate")) location.replace("/login.html");
+      else setUser(null);
+    });
   });
   box.appendChild(out);
 }

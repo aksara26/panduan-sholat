@@ -284,3 +284,24 @@ a.btn.primary{color:var(--on-accent)}
 .auth-info{margin:10px 0 0;padding:10px 12px;border-radius:12px;background:var(--turq-soft);color:var(--turq);font-weight:600}
 .auth-info[hidden],.auth-forgot[hidden]{display:none}
 .quiz-card .auth-info{margin-top:16px}
+
+/* Gerbang login: sembunyikan isi sampai status login diketahui */
+.gate-pending body{visibility:hidden}
+
+
+/* Identitas brand: logo */
+.site-brand{
+  display:inline-flex;
+  align-items:center;
+  width:max-content;
+  margin:0 !important;
+  line-height:0;
+  text-decoration:none;
+}
+.site-logo{
+  display:block;
+  width:clamp(132px, 20vw, 172px);
+  height:auto;
+  max-height:68px;
+  object-fit:contain;
+}

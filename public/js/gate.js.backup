@@ -1,0 +1,21 @@
+/* gate.js — pintu masuk: pengunjung yang belum login diarahkan ke halaman login.
+   Dimuat di <head> (tanpa defer) supaya isi halaman disembunyikan sampai status login diketahui.
+   Catatan: ini pengaturan tampilan. Perlindungan sebenarnya untuk kuis, peringkat, dan admin
+   ada di server (API menolak permintaan tanpa sesi). */
+(function(){
+  var d = document.documentElement;
+  var s = document.currentScript;
+  var next = (s && s.getAttribute("data-next")) || "/";
+  d.setAttribute("data-gate", "1");
+  d.classList.add("gate-pending");
+  function reveal(){ d.classList.remove("gate-pending"); }
+  var timer = setTimeout(reveal, 4000);          // jaga-jaga jika server lambat
+  fetch("/api/me", { credentials: "same-origin" })
+    .then(function(r){ return r.json(); })
+    .then(function(r){
+      clearTimeout(timer);
+      if (r && r.user) return reveal();
+      location.replace("/login.html" + (next !== "/" ? "?next=" + encodeURIComponent(next) : ""));
+    })
+    .catch(function(){ clearTimeout(timer); reveal(); });
+})();

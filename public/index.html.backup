@@ -3,10 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<link rel="icon" href="assets/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" href="assets/favicon-32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="assets/favicon-16.png" sizes="16x16">
-<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <title>Panduan Tata Cara Sholat</title>
 <meta name="description" content="Panduan tata cara sholat fardhu langkah demi langkah: gerakan, bacaan Arab, latin, dan arti. Mengikuti mazhab Syafi'i.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,7 +17,7 @@
 
 <header class="top">
   <div class="topbar">
-    <a class="brand site-brand" href="/" aria-label="kitamenuju — Panduan Sholat"><img class="site-logo" src="assets/logo.png" alt="kitamenuju"></a>
+    <p class="brand">Panduan Sholat</p>
     <div class="account" id="account" aria-live="polite"></div>
   </div>
   <h1>Tata cara sholat, dari niat sampai salam</h1>

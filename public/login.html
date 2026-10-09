@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="assets/favicon-32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="assets/favicon-16.png" sizes="16x16">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<title>Masuk — Panduan Sholat</title>
+<meta name="description" content="Masuk atau daftar untuk mulai belajar tata cara sholat dan mengikuti kuis lomba.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/login.css">
+</head>
+<body class="lg-body">
+<main class="lg">
+
+  <div class="lg-left">
+    <section class="lg-brand" aria-label="Tentang Panduan Sholat">
+      <a class="lg-mark site-brand-login" href="/" aria-label="kitamenuju — Panduan Sholat"><img class="site-logo-login" src="assets/logo.png" alt="kitamenuju"></a>
+      <p class="lg-bismillah" lang="ar" dir="rtl">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+      <h1>Belajar sholat, selangkah demi selangkah</h1>
+      <ul class="lg-points">
+        <li>Lima sholat fardhu lengkap: gerakan, bacaan Arab, latin, dan arti.</li>
+        <li>Niat menyesuaikan peran: sendiri, imam, atau makmum.</li>
+        <li>Kuis 10 soal acak dengan peringkat untuk lomba.</li>
+      </ul>
+    </section>
+
+    <section class="lg-faq" aria-labelledby="faqH">
+      <h2 id="faqH">Pertanyaan umum</h2>
+      <details name="faq">
+        <summary>Untuk apa situs ini?</summary>
+        <p>Membantu belajar tata cara sholat fardhu langkah demi langkah (gerakan, bacaan Arab, latin, dan arti) mengikuti mazhab Syafi'i, lalu menguji pemahaman lewat kuis. Situs ini alat bantu belajar, bukan pengganti guru.</p>
+      </details>
+      <details name="faq">
+        <summary>Bagaimana kuis dan peringkat bekerja?</summary>
+        <p>Setiap percobaan berisi 10 soal acak yang dinilai oleh server dan harus selesai dalam 30 menit. Kamu boleh mengulang; yang dihitung skor terbaikmu. Jika skor sama, waktu tercepat menang. Peringkat hanya terlihat oleh peserta yang sudah masuk.</p>
+      </details>
+      <details name="faq">
+        <summary>Kenapa harus verifikasi email? Emailnya tidak masuk?</summary>
+        <p>Verifikasi memastikan akun memakai email yang benar, sehingga kamu bisa mengatur ulang password bila lupa. Kuis dan peringkat terbuka setelah email terverifikasi. Cek folder spam, tunggu sekitar satu menit lalu pilih “Kirim ulang email” di bagian kuis. Jika tetap gagal, hubungi admin penyelenggara.</p>
+      </details>
+      <details name="faq">
+        <summary>Data apa yang disimpan?</summary>
+        <p>Nama, email, password (disimpan sebagai hash, bukan teks asli), dan hasil kuismu. Peserta lain hanya bisa melihat nama dan skormu di peringkat, bukan emailmu.</p>
+      </details>
+    </section>
+
+    <p class="lg-note">Mengikuti mazhab Syafi'i. Status konten: draf, belum ditinjau ustadz.</p>
+  </div>
+
+  <section class="lg-panel">
+    <div class="lg-card">
+
+      <div class="lg-tabs" id="tabs" role="tablist" aria-label="Masuk atau daftar">
+        <button class="lg-tab" role="tab" id="tab-login" type="button" aria-selected="true" aria-controls="f-login">Masuk</button>
+        <button class="lg-tab" role="tab" id="tab-register" type="button" aria-selected="false" aria-controls="f-register" tabindex="-1">Daftar</button>
+      </div>
+
+      <!-- Masuk -->
+      <form class="lg-form" id="f-login" role="tabpanel" aria-labelledby="tab-login" novalidate>
+        <h2>Selamat datang kembali</h2>
+        <p class="lg-sub">Masuk untuk membuka panduan dan kuis.</p>
+        <label class="lg-field"><span>Email</span>
+          <input name="email" type="email" autocomplete="email" inputmode="email" required></label>
+        <label class="lg-field"><span>Password</span>
+          <div class="lg-pw">
+            <input name="password" type="password" autocomplete="current-password" required>
+            <button class="lg-eye" type="button" aria-pressed="false">Tampilkan</button>
+          </div></label>
+        <div class="lg-row"><button class="lg-link" type="button" data-go="forgot">Lupa password?</button></div>
+        <p class="lg-error" role="alert" hidden></p>
+        <button class="btn primary lg-submit" type="submit">Masuk</button>
+      </form>
+
+      <!-- Daftar -->
+      <form class="lg-form" id="f-register" role="tabpanel" aria-labelledby="tab-register" novalidate hidden>
+        <h2>Buat akun baru</h2>
+        <p class="lg-sub">Gratis. Kami akan mengirim tautan verifikasi ke emailmu.</p>
+        <label class="lg-field"><span>Nama</span>
+          <input name="nama" type="text" autocomplete="name" required maxlength="50"></label>
+        <label class="lg-field"><span>Email</span>
+          <input name="email" type="email" autocomplete="email" inputmode="email" required></label>
+        <label class="lg-field"><span>Password</span>
+          <div class="lg-pw">
+            <input name="password" type="password" autocomplete="new-password" required minlength="8">
+            <button class="lg-eye" type="button" aria-pressed="false">Tampilkan</button>
+          </div>
+          <small>Minimal 8 karakter.</small></label>
+        <p class="lg-error" role="alert" hidden></p>
+        <button class="btn primary lg-submit" type="submit">Buat akun</button>
+      </form>
+
+      <!-- Lupa password -->
+      <form class="lg-form" id="f-forgot" aria-labelledby="h-forgot" novalidate hidden>
+        <h2 id="h-forgot">Lupa password</h2>
+        <p class="lg-sub">Masukkan emailmu. Jika terdaftar, kami kirim tautan untuk membuat password baru.</p>
+        <label class="lg-field"><span>Email</span>
+          <input name="email" type="email" autocomplete="email" inputmode="email" required></label>
+        <p class="lg-error" role="alert" hidden></p>
+        <button class="btn primary lg-submit" type="submit">Kirim tautan</button>
+        <button class="lg-link" type="button" data-go="login">Kembali ke Masuk</button>
+      </form>
+
+      <!-- Selesai: akun dibuat -->
+      <div class="lg-form lg-done" id="f-registered" hidden>
+        <div class="lg-check" aria-hidden="true">&#10003;</div>
+        <h2 tabindex="-1">Akun dibuat</h2>
+        <p>Kami mengirim tautan verifikasi ke <strong id="regEmail"></strong>. Cek kotak masuk dan folder spam. Kamu bisa mulai membaca panduan sekarang; kuis terbuka setelah email terverifikasi.</p>
+        <button class="btn primary lg-submit" id="goNext" type="button">Mulai belajar</button>
+      </div>
+
+      <!-- Selesai: tautan reset dikirim -->
+      <div class="lg-form lg-done" id="f-forgotdone" hidden>
+        <div class="lg-check" aria-hidden="true">&#9993;</div>
+        <h2 tabindex="-1">Cek emailmu</h2>
+        <p id="forgotMsg"></p>
+        <button class="btn lg-submit" type="button" data-go="login">Kembali ke Masuk</button>
+      </div>
+
+      <p class="lg-legal">Dengan masuk, kamu menyetujui bahwa data akun hanya dipakai untuk kuis dan peringkat lomba ini.</p>
+    </div>
+  </section>
+
+</main>
+<script src="js/api.js"></script>
+<script src="js/login.js"></script>
+</body>
+</html>
