@@ -1,0 +1,42 @@
+
+
+{
+
+  "$schema": "./node_modules/wrangler/config-schema.json",
+
+  "name": "panduan-sholat",
+
+  "main": "worker.js",
+
+  "compatibility_date": "2026-10-07",
+
+  "vars": {
+
+    "GOOGLE_CLIENT_ID": "72944218543-ue1dsjpufsh347menn7mq9ed8okr3q8j.apps.googleusercontent.com"
+
+  },
+
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  },
+
+  "d1_databases": [
+
+    {
+
+      "binding": "DB",
+
+      "database_name": "panduan-sholat-db",
+
+      "database_id": "5a54911f-fe9d-490c-92c5-93517aa4e2ad",
+
+      "migrations_dir": "migrations",
+
+      "migrations_pattern": "migrations/*/migration.sql"
+
+    }
+
+  ]
+
+}

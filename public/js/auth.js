@@ -27,9 +27,9 @@ function renderBar(){
   box.textContent = "";
   if (!self.user){
     var b1 = el("button","chip","Masuk"); b1.type = "button";
-    b1.addEventListener("click", function(){ openDialog("login"); });
+    b1.addEventListener("click", function(){ location.href = "/login.html"; });
     var b2 = el("button","chip primary-chip","Daftar"); b2.type = "button";
-    b2.addEventListener("click", function(){ openDialog("register"); });
+    b2.addEventListener("click", function(){ location.href = "/login.html?mode=register"; });
     box.appendChild(b1); box.appendChild(b2);
     return;
   }
@@ -57,6 +57,58 @@ function buildDialog(){
   form = el("form","auth-form"); form.noValidate = true;
   titleEl = el("h2",null); titleEl.id = "authTitle";
   form.appendChild(titleEl);
+
+  var methods = el("div", "login-methods auth-methods");
+  var emailMethod = el("button", "login-method is-active", "✉ Email");
+  emailMethod.type = "button";
+  emailMethod.setAttribute("aria-pressed", "true");
+  var googleMethod = el("button", "login-method", "Google");
+  googleMethod.type = "button";
+  googleMethod.setAttribute("aria-pressed", "false");
+  methods.appendChild(emailMethod);
+  methods.appendChild(googleMethod);
+  form.appendChild(methods);
+
+  var googleWrap = el("div", "auth-google");
+  var googleButton = el("div", "auth-google-button");
+  var googleError = el("p", "auth-error");
+  googleError.setAttribute("role", "alert");
+  googleError.hidden = true;
+  googleWrap.appendChild(googleButton);
+  googleWrap.appendChild(googleError);
+  form.appendChild(googleWrap);
+
+  var providerMode = "email";
+  emailMethod.addEventListener("click", function(){
+    providerMode = "email";
+    emailMethod.classList.add("is-active");
+    googleMethod.classList.remove("is-active");
+    emailMethod.setAttribute("aria-pressed", "true");
+    googleMethod.setAttribute("aria-pressed", "false");
+    googleWrap.hidden = true;
+    nameField.hidden = mode !== "register";
+    form.querySelector(".auth-field input[name=authEmail]").parentNode.hidden = false;
+    pwField.hidden = mode === "forgot";
+    forgotBtn.hidden = mode !== "login";
+    submitBtn.hidden = false;
+    errBox.hidden = true;
+    infoBox.hidden = true;
+  });
+  googleMethod.addEventListener("click", function(){
+    providerMode = "google";
+    googleMethod.classList.add("is-active");
+    emailMethod.classList.remove("is-active");
+    googleMethod.setAttribute("aria-pressed", "true");
+    emailMethod.setAttribute("aria-pressed", "false");
+    googleWrap.hidden = false;
+    nameField.hidden = true;
+    form.querySelector("input[name=authEmail]").parentNode.hidden = true;
+    pwField.hidden = true;
+    forgotBtn.hidden = true;
+    submitBtn.hidden = true;
+    errBox.hidden = true;
+    infoBox.hidden = true;
+  });
 
   function field(id, label, type, ac){
     var wrap = el("label","auth-field");
@@ -91,6 +143,16 @@ function buildDialog(){
   switchBtn.addEventListener("click", function(){ setMode(mode === "register" ? "login" : mode === "forgot" ? "login" : "register"); });
   form.appendChild(switchBtn);
 
+  GoogleAuth.render(googleButton, function(credential){
+    googleError.hidden = true;
+    API.post("/api/google-login", { credential: credential })
+      .then(function(r){ form.reset(); dlg.close(); setUser(r.user); })
+      .catch(function(err){ googleError.textContent = err.message; googleError.hidden = false; });
+  }, function(err){
+    googleError.textContent = err.message || "Google Login tidak dapat dimuat.";
+    googleError.hidden = false;
+  });
+
   form.addEventListener("submit", onSubmit);
   dlg.appendChild(form);
   document.body.appendChild(dlg);
@@ -107,6 +169,18 @@ function setMode(m){
   pwField.hidden = forgot;
   pwField.querySelector("input").required = !forgot;
   forgotBtn.hidden = m !== "login";
+  form.querySelector(".auth-google").hidden = forgot || providerMode !== "google";
+  methods.hidden = forgot;
+  if (forgot) {
+    nameField.hidden = true;
+    form.querySelector("input[name=authEmail]").parentNode.hidden = false;
+    submitBtn.hidden = false;
+  } else if (providerMode === "email") {
+    nameField.hidden = !reg;
+    form.querySelector("input[name=authEmail]").parentNode.hidden = false;
+    pwField.hidden = false;
+    submitBtn.hidden = false;
+  }
   form.elements.authPassword.autocomplete = reg ? "new-password" : "current-password";
   errBox.hidden = true; infoBox.hidden = true;
 }

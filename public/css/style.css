@@ -305,3 +305,13 @@ a.btn.primary{color:var(--on-accent)}
   max-height:68px;
   object-fit:contain;
 }
+
+
+/* Pilihan metode login pada dialog akun */
+.auth-methods{margin:4px 0 16px}
+.auth-methods .login-method{min-width:0}
+.auth-google{margin:0 0 16px}
+.auth-google[hidden]{display:none}
+.auth-google-button{display:flex;justify-content:center;min-height:42px}
+.auth-google .auth-error{color:var(--danger, #b42318)}
+.auth-form .login-method[hidden]{display:none}

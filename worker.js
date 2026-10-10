@@ -525,16 +525,9 @@ async function register(req, env, b) {
     .bind(r.meta.last_row_id)
     .first();
 
-  try {
-    await sendVerification(req, env, u);
-  } catch (e) {
-    console.error("verification email:", e);
-  }
-
   return {
     user: publicUser(u),
-    message:
-      "Akun dibuat. Kami mengirim tautan verifikasi ke emailmu."
+    message: "Akun berhasil dibuat. Kamu sudah bisa mulai menggunakan aplikasi."
   };
 }
 
@@ -606,6 +599,205 @@ async function login(req, env, b) {
   };
 }
 
+
+async function googleLogin(req, env, b) {
+  const key = `auth:${ip(req)}`;
+  if (!allow(key, 100, 900000)) {
+    throw new HttpError(429, "Terlalu banyak percobaan. Coba lagi nanti.");
+  }
+
+  const credential = b.credential;
+  const clientId = text(env.GOOGLE_CLIENT_ID);
+
+  if (
+    typeof credential !== "string" ||
+    credential.length < 20 ||
+    credential.length > 10000 ||
+    !clientId
+  ) {
+    throw new HttpError(400, "Kredensial Google tidak valid.");
+  }
+
+  let claims;
+  try {
+    const response = await fetch(
+      "https://oauth2.googleapis.com/tokeninfo?id_token=" +
+        encodeURIComponent(credential)
+    );
+    if (!response.ok) throw new Error("Google token rejected");
+    claims = await response.json();
+  } catch {
+    throw new HttpError(401, "Token Google tidak valid atau kedaluwarsa.");
+  }
+
+  const now = Math.floor(Date.now() / 1000);
+  if (
+    claims.aud !== clientId ||
+    !["accounts.google.com", "https://accounts.google.com"].includes(claims.iss) ||
+    !claims.sub ||
+    !claims.email ||
+    String(claims.email_verified) !== "true" ||
+    !Number.isFinite(Number(claims.exp)) ||
+    Number(claims.exp) <= now
+  ) {
+    throw new HttpError(401, "Identitas Google tidak dapat diverifikasi.");
+  }
+
+  const googleSub = String(claims.sub);
+  const email = String(claims.email).trim().toLowerCase();
+  if (!EMAIL_RE.test(email)) {
+    throw new HttpError(401, "Email Google tidak valid.");
+  }
+
+  let linked = await env.DB
+    .prepare(
+      `SELECT u.* FROM google_accounts g
+       JOIN users u ON u.id=g.user_id
+       WHERE g.google_sub=?`
+    )
+    .bind(googleSub)
+    .first();
+
+  if (!linked) {
+    const existing = await env.DB
+      .prepare("SELECT * FROM users WHERE email=?")
+      .bind(email)
+      .first();
+
+    if (existing) {
+      // Hanya tautkan otomatis pada akun lama yang emailnya telah diverifikasi.
+      if (Number(existing.email_verified) !== 1) {
+        throw new HttpError(
+          409,
+          "Akun lama belum terverifikasi. Masuk dengan metode lama dan verifikasi email terlebih dahulu."
+        );
+      }
+
+      const existingLink = await env.DB
+        .prepare("SELECT google_sub FROM google_accounts WHERE user_id=?")
+        .bind(existing.id)
+        .first();
+
+      if (existingLink) {
+        throw new HttpError(
+          409,
+          "Akun ini sudah terhubung ke Google lain."
+        );
+      }
+
+      try {
+        await env.DB
+          .prepare("INSERT INTO google_accounts(user_id,google_sub) VALUES(?,?)")
+          .bind(existing.id, googleSub)
+          .run();
+      } catch (e) {
+        // Retry hanya jika permintaan paralel menautkan identitas yang sama
+        // ke akun lama yang sama.
+        const currentLink = await env.DB
+          .prepare("SELECT user_id FROM google_accounts WHERE google_sub=?")
+          .bind(googleSub)
+          .first();
+
+        if (!currentLink || Number(currentLink.user_id) !== Number(existing.id)) {
+          throw new HttpError(
+            409,
+            "Identitas Google sudah terhubung ke akun lain."
+          );
+        }
+      }
+
+      // Tidak mengubah baris users: ID, nama, password, role, dan data tetap.
+      linked = existing;
+    } else {
+      const nama = text(claims.name) || email.split("@")[0];
+    // Kredensial acak ini tidak diberikan kepada pengguna; autentikasi Google
+    // hanya dapat dilakukan melalui token Google yang divalidasi server.
+    const randomPassword = randomToken() + randomToken();
+    let createdId;
+
+    try {
+      const inserted = await env.DB
+        .prepare(
+          `INSERT INTO users
+             (nama,email,password_hash,role,email_verified)
+           VALUES (?,?,?,'user',1)`
+        )
+        .bind(nama.slice(0, 50), email, hashPassword(randomPassword))
+        .run();
+
+      createdId = inserted.meta.last_row_id;
+
+      await env.DB
+        .prepare(
+          "INSERT INTO google_accounts(user_id,google_sub) VALUES(?,?)"
+        )
+        .bind(createdId, googleSub)
+        .run();
+    } catch (e) {
+      // Jika dua permintaan pertama datang bersamaan, gunakan tautan yang
+      // berhasil dibuat oleh permintaan lain, jika memang sudah ada.
+      linked = await env.DB
+        .prepare(
+          `SELECT u.* FROM google_accounts g
+           JOIN users u ON u.id=g.user_id
+           WHERE g.google_sub=?`
+        )
+        .bind(googleSub)
+        .first();
+
+      if (createdId && !linked) {
+        await env.DB
+          .prepare("DELETE FROM users WHERE id=?")
+          .bind(createdId)
+          .run()
+          .catch(() => {});
+      }
+
+      if (!linked) {
+        const emailOwner = await env.DB
+          .prepare("SELECT id FROM users WHERE email=?")
+          .bind(email)
+          .first();
+
+        if (emailOwner) {
+          throw new HttpError(
+            409,
+            "Email sudah memiliki akun. Masuk dengan metode lama terlebih dahulu."
+          );
+        }
+        console.error("Google account creation failed:", e);
+        throw new HttpError(500, "Akun Google belum dapat dibuat. Coba lagi.");
+      }
+    }
+
+    if (!linked) {
+      linked = await env.DB
+        .prepare("SELECT * FROM users WHERE id=?")
+        .bind(createdId)
+        .first();
+    }
+    }
+  }
+
+  if (!linked) {
+    throw new HttpError(500, "Akun Google belum dapat dimuat. Coba lagi.");
+  }
+
+  const token = signToken(
+    { sub: linked.id },
+    secret(env),
+    SESSION_SECONDS
+  );
+
+  return {
+    user: publicUser(linked),
+    __cookie: sessionCookie(
+      token,
+      new URL(req.url).protocol === "https:"
+    )
+  };
+}
+
 async function forgot(req, env, b) {
   const key = `mail:${ip(req)}`;
 
@@ -665,7 +857,7 @@ async function forgot(req, env, b) {
 }
 
 async function quizStart(env, u, action = "start") {
-  needVerified(u);
+  needUser(u);
 
   const active = await env.DB
     .prepare(
@@ -1003,6 +1195,13 @@ async function handleApi(req, env, u) {
 
   if (
     method === "POST" &&
+    path === "/api/google-login"
+  ) {
+    return googleLogin(req, env, b);
+  }
+
+  if (
+    method === "POST" &&
     path === "/api/logout"
   ) {
     return {
@@ -1319,7 +1518,7 @@ async function handleApi(req, env, u) {
     method === "GET" &&
     path === "/api/leaderboard"
   ) {
-    needVerified(u);
+    needUser(u);
 
     const rows =
       await leaderboardRows(env);
@@ -1757,7 +1956,7 @@ function securityHeaders() {
     "x-frame-options": "DENY",
     "referrer-policy": "no-referrer",
     "content-security-policy":
-      "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; base-uri 'self'; frame-ancestors 'none'"
+      "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self' https://accounts.google.com/gsi/client; connect-src 'self' https://accounts.google.com/gsi/; base-uri 'self'; frame-src https://accounts.google.com/gsi/; frame-ancestors 'none'"
   };
 }
 

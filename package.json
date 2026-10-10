@@ -9,6 +9,12 @@
     "seed": "node server/seed.js",
     "test": "node server/test.js"
   },
-  "engines": { "node": ">=22.13" },
-  "license": "MIT"
+  "engines": {
+    "node": ">=22.13"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "wrangler": "^4.148.0"
+  }
 }

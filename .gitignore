@@ -2,3 +2,55 @@ node_modules/
 .env
 data/*.db
 data/*.db-*
+
+# Dependencies and local runtime
+node_modules/
+.wrangler/
+.DS_Store
+*.log
+
+# Secrets
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
+
+# Local database and backups
+/data/
+backups/
+worker.js.backup
+worker.js.broken
+worker.js.save
+worker.js.before-google-fix
+worker.js.pre-*
+wrangler.jsonc.before-assets-binding
+*.bak
+
+# Temporary patch scripts
+patch_google_login_safe.py
+patch_google_login_safe_v2.py
+
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
+node_modules/
+.wrangler/
+data/
+backups/
+server/
+*.bak
+*.log
+.DS_Store
+make-admin.js
+*.backup
+.env
+.env.*
+!.env.example
+.dev.vars*
+.wrangler/
+node_modules/
+data/
+backups/

@@ -37,12 +37,11 @@ function renderIntro(){
   root.textContent = "";
   var card = el("div","quiz-card quiz-intro");
   if (!Auth.user){
-    card.appendChild(el("p","quiz-big","Masuk untuk ikut kuis"));
-    card.appendChild(el("p","quiz-desc","Kuis ini bagian dari lomba. Masuk dengan email supaya skormu tercatat dan masuk peringkat."));
-    var row = el("div","quiz-row");
-    row.appendChild(btn("btn primary","Masuk", function(){ Auth.openDialog("login"); }));
-    row.appendChild(btn("btn","Daftar", function(){ Auth.openDialog("register"); }));
-    card.appendChild(row);
+    card.appendChild(el("p","quiz-big","10 soal acak"));
+    card.appendChild(el("p","quiz-desc","Uji pemahamanmu melalui 10 soal acak. Login dengan Email atau Google diperlukan agar hasil kuis dapat tercatat."));
+    card.appendChild(btn("btn primary","Mulai Kuis", function(){
+      location.href = "/login.html?next=%2F%23quizSection";
+    }));
   } else if (!Auth.user.emailVerified){
     card.appendChild(el("p","quiz-big","Verifikasi email dulu"));
     card.appendChild(el("p","quiz-desc","Kami mengirim tautan verifikasi ke " + Auth.user.email + ". Klik tautan itu (cek juga folder spam), lalu kembali ke sini."));

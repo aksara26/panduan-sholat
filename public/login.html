@@ -42,8 +42,8 @@
         <p>Setiap percobaan berisi 10 soal acak yang dinilai oleh server dan harus selesai dalam 30 menit. Kamu boleh mengulang; yang dihitung skor terbaikmu. Jika skor sama, waktu tercepat menang. Peringkat hanya terlihat oleh peserta yang sudah masuk.</p>
       </details>
       <details name="faq">
-        <summary>Kenapa harus verifikasi email? Emailnya tidak masuk?</summary>
-        <p>Verifikasi memastikan akun memakai email yang benar, sehingga kamu bisa mengatur ulang password bila lupa. Kuis dan peringkat terbuka setelah email terverifikasi. Cek folder spam, tunggu sekitar satu menit lalu pilih “Kirim ulang email” di bagian kuis. Jika tetap gagal, hubungi admin penyelenggara.</p>
+        <summary>Bagaimana jika lupa password?</summary>
+        <p>Gunakan menu “Lupa password?” untuk meminta tautan reset lewat email. Jika email belum tiba, periksa folder spam dan coba lagi beberapa saat kemudian.</p>
       </details>
       <details name="faq">
         <summary>Data apa yang disimpan?</summary>
@@ -56,6 +56,16 @@
 
   <section class="lg-panel">
     <div class="lg-card">
+
+      <div class="login-methods" id="login-methods" role="group" aria-label="Pilih metode masuk">
+        <button class="login-method is-active" id="method-email" type="button" aria-pressed="true">✉ Email</button>
+        <button class="login-method" id="method-google" type="button" aria-pressed="false"><span class="google-g" aria-hidden="true">G</span> Google</button>
+      </div>
+      <div class="lg-google" id="lg-google-wrap" hidden>
+        <p class="lg-sub">Masuk dengan akun Google kamu.</p>
+        <div id="lg-google-button"></div>
+        <p class="lg-error" id="lg-google-error" role="alert" hidden></p>
+      </div>
 
       <div class="lg-tabs" id="tabs" role="tablist" aria-label="Masuk atau daftar">
         <button class="lg-tab" role="tab" id="tab-login" type="button" aria-selected="true" aria-controls="f-login">Masuk</button>
@@ -81,7 +91,7 @@
       <!-- Daftar -->
       <form class="lg-form" id="f-register" role="tabpanel" aria-labelledby="tab-register" novalidate hidden>
         <h2>Buat akun baru</h2>
-        <p class="lg-sub">Gratis. Kami akan mengirim tautan verifikasi ke emailmu.</p>
+        <p class="lg-sub">Gratis. Setelah membuat akun, kamu bisa langsung masuk dan mulai belajar.</p>
         <label class="lg-field"><span>Nama</span>
           <input name="nama" type="text" autocomplete="name" required maxlength="50"></label>
         <label class="lg-field"><span>Email</span>
@@ -111,7 +121,7 @@
       <div class="lg-form lg-done" id="f-registered" hidden>
         <div class="lg-check" aria-hidden="true">&#10003;</div>
         <h2 tabindex="-1">Akun dibuat</h2>
-        <p>Kami mengirim tautan verifikasi ke <strong id="regEmail"></strong>. Cek kotak masuk dan folder spam. Kamu bisa mulai membaca panduan sekarang; kuis terbuka setelah email terverifikasi.</p>
+        <p>Akunmu siap digunakan. Kamu bisa langsung mulai belajar.</p>
         <button class="btn primary lg-submit" id="goNext" type="button">Mulai belajar</button>
       </div>
 
@@ -123,12 +133,29 @@
         <button class="btn lg-submit" type="button" data-go="login">Kembali ke Masuk</button>
       </div>
 
+      <a class="btn lg-submit lg-guest-btn" id="continue-guest" href="/">
+  <span class="lg-guest-content">
+    <svg class="lg-guest-icon" xmlns="http://www.w3.org/2000/svg"
+         viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="9.25"
+              stroke="currentColor" stroke-width="1.7"/>
+      <circle cx="12" cy="9" r="3"
+              stroke="currentColor" stroke-width="1.7"/>
+      <path d="M6.8 18a5.4 5.4 0 0 1 10.4 0"
+            stroke="currentColor" stroke-width="1.7"
+            stroke-linecap="round"/>
+    </svg>
+    <span>Lanjut sebagai tamu</span>
+  </span>
+</a>
+      <p class="lg-sub">Kamu tetap bisa membaca panduan tanpa akun. Login diperlukan untuk mengikuti kuis dan menggunakan fitur peringkat.</p>
       <p class="lg-legal">Dengan masuk, kamu menyetujui bahwa data akun hanya dipakai untuk kuis dan peringkat lomba ini.</p>
     </div>
   </section>
 
 </main>
 <script src="js/api.js"></script>
+<script src="js/google-auth.js"></script>
 <script src="js/login.js"></script>
 </body>
 </html>
