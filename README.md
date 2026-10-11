@@ -13,6 +13,7 @@ Aplikasi web pembelajaran panduan sholat yang dilengkapi kuis interaktif, autent
 - **Papan Peringkat** — menampilkan hasil kuis pengguna.
 - **Panel Admin** — antarmuka pengelolaan aplikasi.
 - **Tampilan Responsif** — dapat diakses melalui browser pada berbagai ukuran layar.
+- **Saran Dan Masukkan** — Saran Dan masukkan mulai dari bacaan yang salah dan sistem yang salah.
 
 ## Teknologi
 
