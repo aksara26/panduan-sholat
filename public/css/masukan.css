@@ -1,0 +1,13 @@
+.feedback-wrap{max-width:820px}
+.feedback-main{margin:24px 0}
+.feedback-form{display:grid;gap:10px;padding:clamp(18px,4vw,28px);border:1px solid var(--line,#ddd);border-radius:18px;background:var(--surface,#fff)}
+.feedback-form label{font-weight:700}
+.feedback-form input,.feedback-form select,.feedback-form textarea{width:100%;box-sizing:border-box;padding:12px;border:1px solid var(--line,#bbb);border-radius:10px;font:inherit;color:inherit;background:var(--surface,#fff)}
+.feedback-form textarea{resize:vertical;min-height:150px}
+.feedback-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.feedback-actions a{text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.feedback-trap{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
+#feedbackStatus{min-height:1.5em}
+#feedbackStatus[data-kind="error"]{color:#b42318}
+#feedbackStatus[data-kind="success"]{color:#067647}
+.feedback-link-wrap{margin-top:18px;text-align:center}

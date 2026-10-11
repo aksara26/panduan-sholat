@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Kritik dan Saran — Panduan Sholat</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/masukan.css">
+</head>
+<body>
+  <div class="wrap feedback-wrap">
+    <header class="top">
+      <div class="topbar">
+        <a class="brand site-brand" href="/" aria-label="Kembali ke Panduan Sholat">
+          <img class="site-logo" src="assets/logo.png" alt="Panduan Sholat">
+        </a>
+      </div>
+      <h1>Kritik dan Saran</h1>
+      <p class="lead">Menemukan kesalahan materi atau punya saran untuk memperbaiki website? Beri tahu kami melalui formulir ini.</p>
+    </header>
+    <main class="feedback-main">
+      <form id="feedbackForm" class="feedback-form">
+        <label for="category">Jenis masukan</label>
+        <select id="category" name="category" required>
+          <option value="Kesalahan materi">Kesalahan materi (bacaan, urutan, hukum)</option>
+          <option value="Masalah website">Masalah website (tampilan, tombol, login)</option>
+          <option value="Saran fitur">Saran fitur atau pengembangan</option>
+          <option value="Lainnya">Lainnya</option>
+        </select>
+        <label for="message">Kritik atau saran</label>
+        <textarea id="message" name="message" minlength="10" maxlength="2000" rows="7" required placeholder="Jelaskan bagian yang perlu diperbaiki (10–2000 karakter)."></textarea>
+        <label class="feedback-trap" aria-hidden="true">Jangan isi kolom ini
+          <input name="website" tabindex="-1" autocomplete="off">
+        </label>
+        <p id="feedbackStatus" role="status" aria-live="polite"></p>
+        <div class="feedback-actions">
+          <button class="btn primary" type="submit" id="feedbackSubmit">Kirim masukan</button>
+          <a class="btn" href="/">Kembali ke panduan</a>
+        </div>
+      </form>
+    </main>
+    <footer><p>Terima kasih telah membantu memperbaiki Panduan Sholat.</p></footer>
+  </div>
+  <script src="js/masukan.js"></script>
+</body>
+</html>

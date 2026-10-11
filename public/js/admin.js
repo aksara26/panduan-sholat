@@ -51,7 +51,7 @@ function render(){
   }).catch(fail);
 
   var tabs = el("div","adm-tabs"); tabs.setAttribute("role","group"); tabs.setAttribute("aria-label","Bagian admin");
-  [["users","Pengguna"],["questions","Soal kuis"],["board","Peringkat"]].forEach(function(t){
+  [["users","Pengguna"],["questions","Soal kuis"],["feedback","Kritik & Saran"],["board","Peringkat"]].forEach(function(t){
     var b = btn("chip", t[1], function(){ tab = t[0]; render(); });
     b.setAttribute("aria-pressed", String(tab === t[0]));
     tabs.appendChild(b);
@@ -61,6 +61,7 @@ function render(){
   root.appendChild(panel);
   if (tab === "users") renderUsers(panel);
   else if (tab === "questions") renderQuestions(panel);
+  else if (tab === "feedback") renderFeedback(panel);
   else renderBoard(panel);
 }
 
@@ -165,6 +166,127 @@ function renderQuestions(panel){
       act.appendChild(box); tr.appendChild(act); tb.appendChild(tr);
     });
     t.appendChild(tb); wrap.appendChild(t); panel.appendChild(wrap);
+  }).catch(fail);
+}
+
+
+/* ---------- Kritik dan Saran ---------- */
+function renderFeedback(panel){
+  panel.appendChild(el(
+    "p",
+    "lead",
+    "Masukan terbaru ditampilkan di sini. Tandai selesai setelah ditangani; hanya masukan selesai yang dapat dihapus."
+  ));
+
+  API.get("/api/admin/feedback").then(function(result){
+    var items = Array.isArray(result.feedback) ? result.feedback : [];
+
+    if (!items.length){
+      panel.appendChild(el("p", "lead", "Belum ada masukan."));
+      return;
+    }
+
+    var wrap = el("div", "table-wrap");
+    var table = el("table", "adm-table");
+    var header = el("tr");
+
+    [
+      "Tanggal",
+      "Halaman",
+      "Kategori",
+      "Isi masukan",
+      "Pengirim",
+      "Status",
+      "Tindakan"
+    ].forEach(function(label){
+      header.appendChild(el("th", null, label));
+    });
+
+    var thead = el("thead");
+    thead.appendChild(header);
+    table.appendChild(thead);
+
+    var tbody = el("tbody");
+
+    items.forEach(function(item){
+      var row = el("tr");
+
+      row.appendChild(el("td", null, item.createdAt || "-"));
+      row.appendChild(el(
+        "td",
+        null,
+        item.sourcePage === "login" ? "Halaman login" : "Halaman utama"
+      ));
+      row.appendChild(el("td", null, item.category || "-"));
+
+      var messageCell = el("td", null, item.message || "");
+      messageCell.style.whiteSpace = "pre-wrap";
+      messageCell.style.minWidth = "240px";
+      row.appendChild(messageCell);
+
+      var sender = item.senderName || (item.userId ? "Pengguna" : "Tamu");
+      if (item.senderEmail) sender += "\n" + item.senderEmail;
+      var senderCell = el("td", null, sender);
+      senderCell.style.whiteSpace = "pre-line";
+      row.appendChild(senderCell);
+
+      var statusLabel = item.status === "closed"
+        ? "Selesai"
+        : item.status === "reviewed"
+          ? "Ditinjau"
+          : "Baru";
+      var statusCell = el("td");
+      statusCell.appendChild(el(
+        "span",
+        item.status === "new" ? "badge off" : "badge",
+        statusLabel
+      ));
+      row.appendChild(statusCell);
+
+      var actionCell = el("td");
+      var actions = el("div", "adm-actions");
+
+      function changeStatus(nextStatus){
+        API.patch("/api/admin/feedback/" + item.id, {
+          status: nextStatus
+        }).then(render).catch(fail);
+      }
+
+      if (item.status === "new"){
+        actions.appendChild(btn("btn", "Tandai ditinjau", function(){
+          changeStatus("reviewed");
+        }));
+      }
+
+      if (item.status !== "closed"){
+        actions.appendChild(btn("btn primary", "Tandai selesai", function(){
+          if (!confirm("Tandai masukan ini sebagai selesai ditangani?")) return;
+          changeStatus("closed");
+        }));
+      } else {
+        actions.appendChild(btn("btn", "Buka kembali", function(){
+          changeStatus("new");
+        }));
+
+        actions.appendChild(btn("btn danger", "Hapus", function(){
+          if (!confirm(
+            "Hapus masukan yang sudah selesai ini secara permanen?"
+          )) return;
+
+          API.del("/api/admin/feedback/" + item.id)
+            .then(render)
+            .catch(fail);
+        }));
+      }
+
+      actionCell.appendChild(actions);
+      row.appendChild(actionCell);
+      tbody.appendChild(row);
+    });
+
+    table.appendChild(tbody);
+    wrap.appendChild(table);
+    panel.appendChild(wrap);
   }).catch(fail);
 }
 

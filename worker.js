@@ -1179,6 +1179,44 @@ async function handleApi(req, env, u) {
   const qMatch =
     path.match(/^\/api\/admin\/questions\/(\d+)$/);
 
+  const feedbackMatch =
+    path.match(/^\/api\/admin\/feedback\/(\d+)$/);
+
+  if (
+      method === "POST" &&
+      path === "/api/feedback"
+    ) {
+      const key = `feedback:${ip(req)}`;
+      if (!allow(key, 5, 60 * 60 * 1000)) {
+        throw new HttpError(429, "Terlalu banyak masukan dikirim. Coba lagi nanti.");
+      }
+
+      // Honeypot untuk mengabaikan kiriman bot sederhana.
+      if (text(b.website)) {
+        return { ok: true, message: "Terima kasih atas masukannya." };
+      }
+
+      const category = text(b.category);
+      const message = text(b.message);
+      const sourcePage = b.sourcePage === "login" ? "login" : "home";
+      const categories = ["Kesalahan materi", "Masalah website", "Saran fitur", "Lainnya"];
+
+      if (!categories.includes(category)) {
+        throw new HttpError(400, "Pilih jenis masukan yang tersedia.");
+      }
+      if (message.length < 10 || message.length > 2000) {
+        throw new HttpError(400, "Masukan harus berisi 10 sampai 2.000 karakter.");
+      }
+
+      await env.DB
+        .prepare(`INSERT INTO feedback (user_id, category, message, source_page) VALUES (?, ?, ?, ?)`)
+        .bind(u ? u.id : null, category, message, sourcePage)
+        .run();
+
+      return { ok: true, message: "Terima kasih! Masukanmu sudah tercatat." };
+    }
+
+
   if (
     method === "POST" &&
     path === "/api/register"
@@ -1770,6 +1808,92 @@ async function handleApi(req, env, u) {
     }
 
     return { ok: true };
+  }
+
+
+  // Feedback hanya boleh dibaca dan dikelola oleh admin.
+  if (
+    method === "GET" &&
+    path === "/api/admin/feedback"
+  ) {
+    needAdmin(u);
+
+    const { results } = await env.DB
+      .prepare(
+        `SELECT
+           f.id,
+           f.user_id AS userId,
+           COALESCE(u.nama, 'Tamu') AS senderName,
+           u.email AS senderEmail,
+           f.category,
+           f.message,
+           f.source_page AS sourcePage,
+           f.status,
+           f.created_at AS createdAt
+         FROM feedback f
+         LEFT JOIN users u ON u.id = f.user_id
+         ORDER BY
+           CASE f.status
+             WHEN 'new' THEN 0
+             WHEN 'reviewed' THEN 1
+             ELSE 2
+           END,
+           f.created_at DESC,
+           f.id DESC`
+      )
+      .all();
+
+    return { feedback: results };
+  }
+
+  if (
+    feedbackMatch &&
+    (method === "PATCH" || method === "DELETE")
+  ) {
+    needAdmin(u);
+
+    const id = intParam(feedbackMatch[1]);
+    const record = await env.DB
+      .prepare("SELECT id, status FROM feedback WHERE id = ?")
+      .bind(id)
+      .first();
+
+    if (!record) {
+      throw new HttpError(404, "Masukan tidak ditemukan.");
+    }
+
+    if (method === "DELETE") {
+      // Masukan harus ditandai selesai sebelum bisa dihapus.
+      if (record.status !== "closed") {
+        throw new HttpError(
+          409,
+          "Tandai masukan sebagai selesai sebelum menghapusnya."
+        );
+      }
+
+      const result = await env.DB
+        .prepare("DELETE FROM feedback WHERE id = ?")
+        .bind(id)
+        .run();
+
+      if (!result.meta.changes) {
+        throw new HttpError(404, "Masukan tidak ditemukan.");
+      }
+
+      return { ok: true, deleted: Number(result.meta.changes) };
+    }
+
+    const status = text(b.status);
+    if (!["new", "reviewed", "closed"].includes(status)) {
+      throw new HttpError(400, "Status masukan tidak valid.");
+    }
+
+    await env.DB
+      .prepare("UPDATE feedback SET status = ? WHERE id = ?")
+      .bind(status, id)
+      .run();
+
+    return { ok: true, status };
   }
 
   if (

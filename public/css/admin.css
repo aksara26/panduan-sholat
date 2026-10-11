@@ -18,3 +18,10 @@
 .adm-msg.err{background:var(--danger-soft);color:var(--danger)}
 .badge{display:inline-block;padding:2px 10px;border-radius:99px;background:var(--accent-soft);font-size:.8rem;font-weight:700}
 .badge.off{background:var(--danger-soft);color:var(--danger)}
+
+/* Kritik dan saran */
+.adm-feedback-list{display:grid;gap:12px}
+.adm-feedback-card{padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+.adm-feedback-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.adm-feedback-message{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65}
+.adm-feedback-meta{font-size:.85rem;color:var(--muted);overflow-wrap:anywhere}

@@ -255,3 +255,7 @@
 .lg-guest-btn:active {
   transform: translateY(1px);
 }
+
+
+/* Tautan kritik dan saran pada halaman login */
+.lg-note a{color:inherit;font-weight:750;text-decoration:underline;text-underline-offset:3px}

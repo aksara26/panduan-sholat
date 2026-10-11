@@ -315,3 +315,9 @@ a.btn.primary{color:var(--on-accent)}
 .auth-google-button{display:flex;justify-content:center;min-height:42px}
 .auth-google .auth-error{color:var(--danger, #b42318)}
 .auth-form .login-method[hidden]{display:none}
+
+
+/* Tautan kritik dan saran */
+.feedback-cta{margin:16px 0 0}
+.feedback-cta a{color:var(--accent);font-weight:750;text-underline-offset:3px}
+.feedback-cta a:hover{text-decoration-thickness:2px}
