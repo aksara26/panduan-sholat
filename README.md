@@ -1,9 +1,8 @@
-# Panduan Sholat
+ini isinya Panduan Sholat
 
 Aplikasi web pembelajaran panduan sholat dengan kuis interaktif dan papan peringkat.
 
-**Demo:** https://panduan-sholat.panduan-sholat-aksara26.workers.dev/
-**Repository:** https://github.com/aksara26/panduan-sholat
+**Demo:** [https://panduan-sholat.panduan-sholat-aksara26.workers.dev/](https://panduan-sholat.panduan-sholat-aksara26.workers.dev/) **Repository:** [https://github.com/aksara26/panduan-sholat](https://github.com/aksara26/panduan-sholat)
 
 ## Fitur
 
@@ -26,17 +25,21 @@ Aplikasi web pembelajaran panduan sholat dengan kuis interaktif dan papan pering
 ## Menjalankan secara lokal
 
 Pastikan Node.js dan npm sudah terpasang.
+```
+npm ci
+npx wrangler dev
 
-    npm ci
-    npx wrangler dev
+```
 
 Ikuti alamat lokal yang ditampilkan Wrangler. Konfigurasi database D1 dan autentikasi perlu disiapkan terlebih dahulu.
 
 ## Deployment
 
 Setelah konfigurasi Cloudflare siap:
+```
+npx wrangler deploy
 
-    npx wrangler deploy
+```
 
 Lihat `wrangler.jsonc` untuk konfigurasi Worker.
 
