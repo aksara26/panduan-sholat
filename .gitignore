@@ -54,3 +54,6 @@ make-admin.js
 node_modules/
 data/
 backups/
+
+# Local backup files
+*.backup
