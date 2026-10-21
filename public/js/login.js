@@ -135,8 +135,9 @@ submit(panels.register, "Buat akun", function(f){
   if (nama.length < 2) { fail(f, "Nama minimal 2 karakter.", "nama"); return null; }
   if (!EMAIL_RE.test(email)) { fail(f, "Isi email dengan format yang benar.", "email"); return null; }
   if (pw.length < 8) { fail(f, "Password minimal 8 karakter.", "password"); return null; }
-  return API.post("/api/register", { nama: nama, email: email, password: pw }).then(function(r){
-    $("#regEmail").textContent = r.user.email;
+  return API.post("/api/register", { nama: nama, email: email, password: pw }).then(function(){
+    /* Perbaikan: baris yang mengisi #regEmail dihapus karena elemennya
+       sudah tidak ada di login.html (penyebab error textContent null). */
     f.reset();
     show("registered");
   });
@@ -146,7 +147,8 @@ submit(panels.forgot, "Kirim tautan", function(f){
   var email = f.elements.email.value.trim();
   if (!EMAIL_RE.test(email)) { fail(f, "Isi email dengan format yang benar.", "email"); return null; }
   return API.post("/api/forgot", { email: email }).then(function(r){
-    $("#forgotMsg").textContent = r.message;
+    var msg = $("#forgotMsg");
+    if (msg) msg.textContent = r.message;
     show("forgotdone");
   });
 });

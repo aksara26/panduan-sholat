@@ -108,6 +108,9 @@ var V = {
     {a:"سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ", l:"Sami'allaahu liman hamidah.", t:"Allah mendengar orang yang memuji-Nya."},
     {a:"رَبَّنَا لَكَ الْحَمْدُ مِلْءَ السَّمَاوَاتِ وَمِلْءَ الْأَرْضِ وَمِلْءَ مَا شِئْتَ مِنْ شَيْءٍ بَعْدُ", l:"Rabbanaa lakal hamdu mil'as samaawaati wa mil'al ardhi wa mil'a maa syi'ta min syai'in ba'du.", t:"Wahai Tuhan kami, bagi-Mu segala puji, sepenuh langit, sepenuh bumi, dan sepenuh apa saja yang Engkau kehendaki sesudahnya."}
   ],
+  qunut:{a:"اللَّهُمَّ اهْدِنِي فِيمَنْ هَدَيْتَ وَعَافِنِي فِيمَنْ عَافَيْتَ وَتَوَلَّنِي فِيمَنْ تَوَلَّيْتَ وَبَارِكْ لِي فِيمَا أَعْطَيْتَ وَقِنِي شَرَّ مَا قَضَيْتَ فَإِنَّكَ تَقْضِي وَلَا يُقْضَىٰ عَلَيْكَ وَإِنَّهُ لَا يَذِلُّ مَنْ وَالَيْتَ وَلَا يَعِزُّ مَنْ عَادَيْتَ تَبَارَكْتَ رَبَّنَا وَتَعَالَيْتَ فَلَكَ الْحَمْدُ عَلَىٰ مَا قَضَيْتَ أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ وَصَلَّى اللَّهُ عَلَىٰ سَيِّدِنَا مُحَمَّدٍ النَّبِيِّ الْأُمِّيِّ وَعَلَىٰ آلِهِ وَصَحْبِهِ وَسَلَّمَ",
+    l:"Allaahummah-dinii fiiman hadait, wa 'aafinii fiiman 'aafait, wa tawallanii fiiman tawallait, wa baarik lii fiimaa a'thait, wa qinii syarra maa qadhait, fa innaka taqdhii wa laa yuqdhaa 'alaik, wa innahuu laa yadzillu man waalait, wa laa ya'izzu man 'aadait, tabaarakta rabbanaa wa ta'aalait, fa lakal hamdu 'alaa maa qadhait, astaghfiruka wa atuubu ilaik. Wa shallallaahu 'alaa sayyidinaa Muhammadin nabiyyil ummiyyi wa 'alaa aalihii wa shahbihii wa sallam.",
+    t:"Ya Allah, berilah aku petunjuk bersama orang-orang yang telah Engkau beri petunjuk, berilah aku kesehatan bersama orang-orang yang telah Engkau beri kesehatan, dan pimpinlah aku bersama orang-orang yang telah Engkau pimpin. Berkahilah apa yang telah Engkau berikan kepadaku, dan lindungilah aku dari keburukan yang telah Engkau tetapkan. Sesungguhnya Engkau yang menetapkan dan tidak ada yang menetapkan atas-Mu. Sesungguhnya tidak akan hina orang yang Engkau bela, dan tidak akan mulia orang yang Engkau musuhi. Maha Suci Engkau, wahai Tuhan kami, dan Maha Tinggi. Bagi-Mu segala puji atas apa yang Engkau tetapkan. Aku memohon ampun kepada-Mu dan bertobat kepada-Mu. Semoga Allah melimpahkan rahmat dan salam kepada junjungan kami Nabi Muhammad, Nabi yang ummi, beserta keluarga dan sahabatnya."},
   sujud:{a:"سُبْحَانَ رَبِّيَ الْأَعْلَى وَبِحَمْدِهِ", l:"Subhaana rabbiyal a'laa wa bihamdih.", t:"Maha Suci Tuhanku Yang Maha Tinggi, dan dengan memuji-Nya."},
   duduk:{a:"رَبِّ اغْفِرْ لِي وَارْحَمْنِي وَاجْبُرْنِي وَارْفَعْنِي وَارْزُقْنِي وَاهْدِنِي وَعَافِنِي وَاعْفُ عَنِّي", l:"Rabbighfir lii warhamnii wajburnii warfa'nii warzuqnii wahdinii wa 'aafinii wa'fu 'annii.", t:"Ya Tuhanku, ampunilah aku, rahmatilah aku, cukupkanlah kekuranganku, angkatlah derajatku, berilah aku rezeki, tunjukilah aku, sehatkanlah aku, dan maafkanlah aku."},
   tahiyat:{a:"التَّحِيَّاتُ الْمُبَارَكَاتُ الصَّلَوَاتُ الطَّيِّبَاتُ لِلَّهِ. السَّلَامُ عَلَيْكَ أَيُّهَا النَّبِيُّ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ. السَّلَامُ عَلَيْنَا وَعَلَىٰ عِبَادِ اللَّهِ الصَّالِحِينَ. أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا رَسُولُ اللَّهِ",
@@ -164,8 +167,16 @@ function buildSteps(key, role){
         "Yang rukun adalah gerakannya. Bacaan tasbih hukumnya sunnah."
       ]});
     var iNotes = ["Bangkit dari rukuk sambil membaca \"Sami'allaahu liman hamidah\", lalu berdiri tegak dan tenang (tuma'ninah), kemudian membaca bacaan kedua."];
-    if (key === "subuh" && r === 2) iNotes.push("Pada rakaat kedua sholat Subuh, mazhab Syafi'i menyunnahkan doa qunut setelah i'tidal. Teks qunut tidak dimuat di sini; ikuti tuntunan gurumu.");
+    if (key === "subuh" && r === 2) iNotes.push("Pada rakaat kedua sholat Subuh, mazhab Syafi'i menyunnahkan doa qunut setelah bacaan i'tidal. Doanya ada di langkah berikutnya.");
     add({id:"itidal"+r, r:r, title:"I'tidal", pose:"itidal", tag:"rukun", verses:V.itidal, notes:iNotes});
+    if (key === "subuh" && r === 2){
+      add({id:"qunut", r:r, title:"Doa qunut", pose:"itidal", tag:"sunnah", verses:[V.qunut],
+        notes:[
+          "Dibaca setelah bacaan i'tidal pada rakaat kedua sholat Subuh, dengan berdiri tegak. Bisa dengan mengangkat kedua tangan seperti berdoa. Setelah selesai, turun sujud sambil takbir.",
+          "Qunut Subuh adalah sunnah dalam mazhab Syafi'i, sedangkan sebagian mazhab lain berpendapat berbeda. Bila lupa dan sudah sujud, sunnah sujud sahwi.",
+          "Lafal qunut punya beberapa riwayat dan susunan yang berbeda, termasuk bacaan makmum saat berjamaah. Ikuti tuntunan gurumu."
+        ]});
+    }
     add({id:"sujud1", r:r, title:"Sujud pertama", pose:"sujud", tag:"rukun", rep:"3 kali", verses:[V.sujud],
       notes:[
         "Turun sambil mengucapkan takbir. Tujuh anggota sujud menempel di lantai: dahi (bersama hidung), kedua telapak tangan, kedua lutut, dan ujung jari kedua kaki.",
