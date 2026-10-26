@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F3F5FB">
+<title>Materi Pembelajaran — KitaMenuju</title>
+<meta name="description" content="Daftar materi pembelajaran Islam dari KitaMenuju.">
+
+<!-- Script Tema Cepat (Ditaruh di HEAD agar tema langsung aktif tanpa flicker/kaget) -->
+<script>
+  (function() {
+    try {
+      const savedTheme = localStorage.getItem('kitamenuju-theme');
+      if (savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    } catch(e) {}
+  })();
+</script>
+
+<!-- Favicon standar dari folder assets -->
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="assets/favicon-32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="assets/favicon-16.png" sizes="16x16">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+<!-- Font Google -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Bricolage+Grotesque:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- CSS Utama -->
+<link rel="stylesheet" href="css/materi.css">
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="dashboard.html" aria-label="kitamenuju — Materi Pembelajaran">
+      <img class="site-logo" src="assets/logo.png" alt="kitamenuju" style="width: 40px; height: 40px; object-fit: contain; border-radius: 10px;">
+      <span class="brand-name">kitamenuju</span>
+    </a>
+    <div class="nav-right">
+      <a class="nav-link" href="dashboard.html">Dashboard</a>
+      <a class="nav-link active" href="materi.html" aria-current="page">Materi</a>
+      <!-- Tombol Tema dengan Ikon dan Label Teks Dynamic -->
+      <button class="theme-btn" id="themeToggle" type="button" aria-label="Ganti tema">
+        <span id="themeIcon">◐</span>
+        <span id="themeText">Mode Terang</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- Hero Section & Sapaan Pengguna -->
+  <section class="hero">
+    <span class="eyebrow">Perpustakaan Belajar</span>
+    <h1 id="userGreeting">Assalamu’alaikum,<br>Penuntut Ilmu.</h1>
+    <p class="intro">Pilih materi yang ingin kamu pelajari. Riwayat dan nilai kuis kamu akan langsung tercatat pada tiap kartu materi di bawah ini.</p>
+  </section>
+
+  <!-- Pengingat Hadis -->
+  <aside class="hadith" aria-label="Hadis tentang memahami agama">
+    <p class="hadith-ar" lang="ar">مَنْ يُرِدِ اللَّهُ بِهِ خَيْرًا يُفَقِّهْهُ فِي الدِّينِ</p>
+    <p class="hadith-trans">“Barang siapa yang Allah kehendaki kebaikan baginya, niscaya Dia akan memahamkannya dalam urusan agama.”</p>
+    <div class="hadith-source">HR. Sahih al-Bukhari no. 71</div>
+  </aside>
+
+  <!-- Daftar Materi & Badge Kuis -->
+  <section aria-labelledby="materi-title">
+    <div class="section-head">
+      <h2 id="materi-title">Daftar Materi</h2>
+      <span class="count">1 materi tersedia</span>
+    </div>
+
+    <!-- Kartu Materi 1 -->
+    <a class="mat" data-quiz-id="panduan-sholat" href="https://madrasah-digital-by-kitamenuju.panduan-sholat-aksara26.workers.dev/">
+      <span class="ic" aria-hidden="true">ص</span>
+      <span>
+        <h3>Panduan Tata Cara Sholat Fardhu menurut Mazhab Syafi’i</h3>
+        <span class="m">5 sholat fardhu: gerakan, bacaan Arab, latin, dan arti.</span>
+      </span>
+      <span class="side">
+        <!-- Badge skor/status kuis diisi otomatis oleh JavaScript -->
+        <span class="tag quiz-badge">Memuat status…</span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </span>
+    </a>
+
+    <div class="empty">Materi lainnya akan segera ditambahkan, insyaAllah.</div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">© <span id="year"></span> KitaMenuju · Belajar sedikit demi sedikit, istiqamah.</div>
+</footer>
+
+<!-- Integration JS -->
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+
+<script>
+// 1. logika Sinkronisasi Tombol & Label Tema (Light / Dark)
+const root = document.documentElement;
+const themeToggle = document.getElementById('themeToggle');
+const themeText = document.getElementById('themeText');
+
+function updateThemeUI() {
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  if (themeText) {
+    themeText.textContent = isDark ? 'Mode Terang' : 'Mode Gelap';
+  }
+}
+
+// Set label saat halaman pertama dibuka
+updateThemeUI();
+
+themeToggle.addEventListener('click', () => {
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    root.removeAttribute('data-theme');
+    try { localStorage.setItem('kitamenuju-theme', 'light'); } catch(e) {}
+  } else {
+    root.setAttribute('data-theme', 'dark');
+    try { localStorage.setItem('kitamenuju-theme', 'dark'); } catch(e) {}
+  }
+  updateThemeUI();
+});
+
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// 2. Fetch User & Data Kuis dari Backend
+document.addEventListener('DOMContentLoaded', async () => {
+  // Sapaan pengguna
+  const userName = window.currentUser?.name || localStorage.getItem('user_name') || 'Penuntut Ilmu';
+  const greetingEl = document.getElementById('userGreeting');
+  if (greetingEl) {
+    greetingEl.innerHTML = `Assalamu’alaikum,<br>${userName}.`;
+  }
+
+  try {
+    let quizHistory = {};
+
+    if (typeof api !== 'undefined' && api.getQuizHistory) {
+      quizHistory = await api.getQuizHistory();
+    } else {
+      quizHistory = JSON.parse(localStorage.getItem('user_quiz_history')) || {};
+    }
+
+    // Update badge di tiap kartu materi
+    document.querySelectorAll('.mat[data-quiz-id]').forEach(card => {
+      const quizId = card.getAttribute('data-quiz-id');
+      const badge = card.querySelector('.quiz-badge');
+
+      if (badge) {
+        if (quizHistory[quizId] && quizHistory[quizId].completed) {
+          const data = quizHistory[quizId];
+          badge.textContent = `★ Skor: ${data.score}/${data.maxScore}`;
+          badge.classList.add('ok');
+        } else {
+          badge.textContent = `● Belum Dikerjakan`;
+          badge.style.background = 'var(--surface2)';
+          badge.style.color = 'var(--muted)';
+        }
+      }
+    });
+  } catch (error) {
+    console.error("Gagal memuat riwayat kuis:", error);
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="/assets/favicon.ico?v=2" sizes="any">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=2">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=2">
+<meta name="theme-color" content="#16204A">
+<title>Dashboard Belajar | KitaMenuju</title>
+<meta name="description" content="Dashboard belajar agama Islam: daftar materi, riwayat kuis, dan peringkat lomba.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F5FB; --surface:#FFFFFF; --surface2:#E4E9FA; --ink:#16204A; --muted:#525D88;
+  --line:#D6DBEC; --brand:#2B4CC0; --brand-ink:#FFFFFF; --gold:#B98A2E; --gold-soft:#F6EBCF;
+  --ok:#0F766E; --ok-soft:#DDF1EE; --warn:#B3261E; --shadow:0 1px 2px rgba(22,32,74,.06),0 8px 24px rgba(22,32,74,.07);
+  --r:18px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1330; --surface:#161E45; --surface2:#222C5F; --ink:#E9EDFC; --muted:#A6B0DC;
+    --line:#2A3568; --brand:#93AAFF; --brand-ink:#0D1330; --gold:#E2B85E; --gold-soft:#2E2A24;
+    --ok:#63D3C4; --ok-soft:#153B4A; --warn:#FF8A80; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1330; --surface:#161E45; --surface2:#222C5F; --ink:#E9EDFC; --muted:#A6B0DC;
+  --line:#2A3568; --brand:#93AAFF; --brand-ink:#0D1330; --gold:#E2B85E; --gold-soft:#2E2A24;
+  --ok:#63D3C4; --ok-soft:#153B4A; --warn:#FF8A80; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.55;font-size:16px}
+.wrap{max-width:1080px;margin:0 auto;padding:16px 16px 64px}
+a{color:var(--brand)}
+h1,h2,h3{line-height:1.2;margin:0}
+h2{font-size:1.15rem;letter-spacing:-.01em}
+.ar{font-family:"Amiri",serif;direction:rtl}
+
+/* top bar */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0 20px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:800;letter-spacing:-.02em;font-size:1.1rem;min-width:0}
+.site-logo{display:block;width:42px;height:42px;object-fit:contain;flex:0 0 42px}
+.brand-name{white-space:nowrap}
+.mark{width:34px;height:40px;border-radius:17px 17px 6px 6px;background:var(--brand);display:grid;place-items:center;color:var(--brand-ink);font-family:"Amiri",serif;font-size:1.2rem}
+.nav-links{display:flex;gap:4px;flex-wrap:wrap}
+.nav-links a{padding:6px 12px;border-radius:999px;text-decoration:none;color:var(--muted);font-size:.9rem;font-weight:600}
+.nav-links a[aria-current="page"],.nav-links a:hover{background:var(--surface2);color:var(--ink)}
+.account{display:flex;align-items:center;gap:10px}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--surface2);color:var(--brand);display:grid;place-items:center;font-weight:800}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 14px;font:inherit;font-size:.85rem;font-weight:600;cursor:pointer}
+.chip:focus-visible,.btn:focus-visible,a:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.picker{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1fr 220px;gap:20px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:28px;box-shadow:var(--shadow)}
+.hero .eyebrow{color:var(--gold);font-weight:700;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase}
+.hero h1{font-size:clamp(1.6rem,4vw,2.3rem);letter-spacing:-.03em;margin:6px 0 8px}
+.hero p{color:var(--muted);margin:0 0 16px;max-width:52ch}
+.hero-message{display:grid;grid-template-columns:1fr;gap:14px;align-items:start}
+.hero-message p{margin:0 0 8px}
+.hero-message>div{padding:14px 16px;border-left:3px solid var(--gold);border-radius:0 12px 12px 0;background:var(--surface)}
+.hero-message>div p:last-child{margin-bottom:0}
+.hero-message .ar{font-size:1.25rem}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:10px 18px;border-radius:12px;font:inherit;font-weight:700;cursor:pointer;text-decoration:none}
+.btn.primary{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.arch{position:relative;justify-self:center;width:190px;height:210px;border-radius:95px 95px 14px 14px;background:var(--surface2);display:grid;place-items:center;text-align:center;padding:14px}
+.arch::before{content:"";position:absolute;inset:8px;border:1.5px solid var(--gold);border-radius:87px 87px 8px 8px;pointer-events:none}
+.arch .ar{font-size:1.7rem;line-height:1.6;color:var(--brand)}
+.arch small{display:block;color:var(--muted);font-size:.72rem;margin-top:4px}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.stat .k{color:var(--muted);font-size:.8rem;font-weight:600}
+.stat .v{font-size:1.9rem;font-weight:800;letter-spacing:-.03em;margin-top:2px}
+.stat .d{font-size:.8rem;color:var(--muted);font-weight:600}
+
+/* grid blocks */
+.grid{display:grid;grid-template-columns:1.6fr 1fr;gap:18px}
+.block{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--shadow)}
+.block+.block{margin-top:18px}
+.block .head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:14px}
+.block .head a{font-size:.85rem;font-weight:600}
+.sub{color:var(--muted);font-size:.88rem;margin:0 0 14px}
+.empty{margin:0;padding:18px;border:1.5px dashed var(--line);border-radius:14px;color:var(--muted);font-size:.92rem;text-align:center}
+
+/* materi */
+.mat{display:grid;grid-template-columns:48px 1fr auto;gap:14px;align-items:center;padding:14px;border:1.5px solid var(--line);border-radius:16px;text-decoration:none;color:inherit;background:var(--surface)}
+.mat+.mat,.mat+.empty{margin-top:10px}
+.mat:hover{border-color:var(--brand);background:var(--surface2)}
+.mat .ic{width:48px;height:56px;border-radius:24px 24px 8px 8px;background:var(--surface2);display:grid;place-items:center;font-family:"Amiri",serif;font-size:1.5rem;color:var(--brand)}
+.mat h3{font-size:1.05rem}
+.mat .m{font-size:.85rem;color:var(--muted);margin-top:2px}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;padding:3px 12px;border-radius:99px;background:var(--surface2);color:var(--ink)}
+.tag.ok{background:var(--ok-soft);color:var(--ok)}
+
+/* chart */
+.week{display:flex;align-items:flex-end;gap:10px;height:150px;padding-top:8px}
+.week div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:6px;font-size:.75rem;color:var(--muted)}
+.week span{width:100%;max-width:38px;border-radius:10px 10px 4px 4px;background:var(--brand);min-height:6px}
+.week .today span{background:var(--gold)}
+
+/* table */
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{text-align:left;padding:10px 8px;border-top:1px solid var(--line)}
+th{border-top:0;color:var(--muted);font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+td.n{font-variant-numeric:tabular-nums;font-weight:700}
+.tablewrap{overflow-x:auto}
+
+/* leaderboard */
+.lb{list-style:none;margin:0;padding:0}
+.lb li{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.lb li:first-child{border-top:0}
+.rank{width:28px;height:28px;border-radius:50%;background:var(--surface2);display:grid;place-items:center;font-weight:800;font-size:.8rem}
+.lb li:nth-child(1) .rank{background:var(--gold);color:#fff}
+.lb .me{background:var(--surface2);margin:0 -10px;padding-left:10px;padding-right:10px;border-radius:10px;border-top-color:transparent}
+.lb .t{font-size:.76rem;color:var(--muted)}
+
+.callout{border-left:3px solid var(--gold);background:var(--surface);padding:12px 16px;border-radius:0 12px 12px 0;font-size:.88rem;color:var(--ink);margin-top:18px}
+footer{margin-top:28px;color:var(--muted);font-size:.82rem;text-align:center}
+
+@media(max-width:860px){
+  .grid{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .hero{grid-template-columns:1fr;padding:22px}
+  .arch{display:none}
+}
+@media(max-width:600px){.hero-message{gap:12px}}
+@media(max-width:520px){
+  .nav-links{display:none}
+  .mat{grid-template-columns:48px 1fr}
+  .mat .side{grid-column:2}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="topbar">
+  <a class="brand" href="/" aria-label="KitaMenuju — Beranda"><img class="site-logo" src="/assets/logo.png" alt=""><span class="brand-name">kitamenuju</span></a>
+  <nav class="nav-links" aria-label="Navigasi utama">
+    <a href="#" aria-current="page">Dashboard</a>
+    <a href="materi.html">Materi</a>
+    <a href="https://madrasah-digital-by-kitamenuju.panduan-sholat-aksara26.workers.dev/">Login</a>
+  </nav>
+  <div class="account">
+    <button class="chip" id="tTheme" type="button">Mode gelap</button>
+    <span class="avatar" id="avatar" aria-hidden="true">P</span>
+  </div>
+</header>
+
+<main>
+  <section class="hero" aria-labelledby="hi">
+    <div>
+      <span class="eyebrow">Dashboard belajar</span>
+      <h1 id="hi">Assalamu'alaikum, <span id="uname">Pencari Ilmu</span></h1>
+      <div class="hero-message">
+        <p>Konsisten sedikit setiap hari lebih baik daripada banyak tapi jarang.</p>
+        <div>
+          <p class="ar">مَنْ يُرِدِ اللَّهُ بِهِ خَيْرًا يُفَقِّهْهُ فِي الدِّينِ</p>
+          <p>Man yuridillāhu bihi khairan yufaqqihhu fid-dīn.</p>
+          <p>“Barang siapa yang Allah kehendaki mendapatkan kebaikan, niscaya Allah akan memahamkannya dalam urusan agama.”</p>
+          <p>HR. Sahih al-Bukhari no. 71.</p>
+        </div>
+      </div>
+    </div>
+    <div class="arch" aria-hidden="true">
+      <div><div class="ar">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div><small>Mulailah dengan basmalah</small></div>
+    </div>
+  </section>
+
+  <section class="stats" aria-label="Ringkasan">
+    <div class="stat"><div class="k">Skor terbaik</div><div class="v" id="sBest">0</div><div class="d">belum ada kuis</div></div>
+    <div class="stat"><div class="k">Kuis selesai</div><div class="v" id="sQuiz">0</div><div class="d">10 soal acak</div></div>
+    <div class="stat"><div class="k">Materi tersedia</div><div class="v" id="sMateri">0</div><div class="d">bertambah seiring waktu</div></div>
+    <div class="stat"><div class="k">Hari beruntun</div><div class="v" id="sStreak">0</div><div class="d">hari belajar</div></div>
+  </section>
+
+  <div class="grid">
+    <div>
+      <section class="block" id="materi" aria-labelledby="mH">
+        <div class="head"><h2 id="mH">Materi belajar</h2></div>
+        <p class="sub">Ketuk materi untuk langsung membukanya.</p>
+        <div id="materiList"></div>
+      </section>
+
+      <section class="block" id="kuis" aria-labelledby="kH">
+        <div class="head"><h2 id="kH">Riwayat kuis</h2><a href="https://madrasah-digital-by-kitamenuju.panduan-sholat-aksara26.workers.dev/#quizSection">Kerjakan kuis</a></div>
+        <div id="quizBox"></div>
+      </section>
+    </div>
+
+    <aside>
+      <section class="block" id="peringkat" aria-labelledby="pH">
+        <div class="head"><h2 id="pH">Peringkat lomba</h2><a href="https://madrasah-digital-by-kitamenuju.panduan-sholat-aksara26.workers.dev/#boardSection">Lihat semua</a></div>
+        <p class="sub">Skor terbaik tiap peserta pada materi yang dipilih. Jika seri, waktu tercepat menang.</p>
+        <div class="picker" id="lbPick" role="group" aria-label="Pilih materi"></div>
+        <div id="lbBox"></div>
+      </section>
+
+      <div class="callout"><b>Draf konten.</b> Teks bacaan belum ditinjau guru atau ustadz. Cocokkan dengan mushaf dan guru sebelum dipakai luas.</div>
+    </aside>
+  </div>
+</main>
+
+<footer>Disusun mengikuti mazhab Syafi'i. Tambahkan materi baru lewat daftar <code>MATERI</code> di bagian script file ini.</footer>
+</div>
+
+<script src="/js/api.js"></script>
+<script>
+/* ===== Daftar materi. Tambah materi baru dengan menambah satu objek di sini.
+   Saat kartu diketuk, pengguna langsung diarahkan ke `href`. ===== */
+const MATERI = [
+  {
+    id: "sholat",
+    short: "Sholat",
+    ar: "ص",
+    name: "Panduan Tata Cara Sholat Fardhu menurut Mazhab Syafi'i",
+    desc: "5 sholat fardhu: gerakan, bacaan Arab, latin, dan arti.",
+    href: "https://madrasah-digital-by-kitamenuju.panduan-sholat-aksara26.workers.dev/",
+    tag: "Tersedia"
+  }
+  /* contoh materi berikutnya:
+  ,{ id:"wudhu", short:"Wudhu", ar:"و", name:"Tata Cara Wudhu",
+     desc:"Langkah wudhu menurut mazhab Syafi'i.", href:"https://...", tag:"Tersedia" }
+  */
+];
+
+/* ===== Data pengguna. Kosong dulu; ganti dengan fetch ke API/Workers kamu =====
+   Bentuk yang diharapkan:
+   { user:{name}, best:0, streak:0,
+     quizzes:[{materi:"sholat", date, score, time, pass}],
+     board:{ sholat:[{name, score, time, me}], wudhu:[...] } }
+   Kunci di board = id materi. Tiap peserta cukup satu baris berisi skor
+   terbaiknya pada materi itu, urut dari skor tertinggi (seri: waktu tercepat). */
+/*
+  Dashboard memakai sumber data yang sama dengan kuis: API server.
+  Backend perlu menyediakan GET /api/dashboard dengan bentuk:
+  {
+    user: { name: "Nama pengguna" },
+    best: 90,
+    streak: 2,
+    quizzes: [{ materi:"sholat", date:"2026-10-22", score:9, time:"2:10", pass:true }],
+    board: { sholat: [{ name:"Nama", score:9, time:"2:10", me:true }] }
+  }
+*/
+function loadData(){
+  if (!window.API || typeof window.API.get !== "function") {
+    return Promise.reject(new Error("API belum dimuat. Pastikan file /js/api.js tersedia."));
+  }
+  // Gunakan endpoint yang memang sudah tersedia di backend; tidak perlu /api/dashboard baru.
+  return API.get("/api/me").then(function(me){
+    if (!me || !me.user) {
+      throw new Error("Silakan masuk terlebih dahulu agar riwayat kuis dapat ditampilkan.");
+    }
+    return Promise.all([
+      API.get("/api/quiz/history"),
+      API.get("/api/leaderboard").catch(function(){ return {top:[], participants:0, myRank:null}; })
+    ]).then(function(results){
+      const history = Array.isArray(results[0].attempts) ? results[0].attempts : [];
+      const board = Array.isArray(results[1].top) ? results[1].top : [];
+      const quizzes = history.map(function(a){
+        const date = new Date(Number(a.finishedAt));
+        return {
+          materi: "sholat",
+          date: isNaN(date.getTime()) ? "—" : date.toLocaleDateString("id-ID"),
+          score: Number(a.score || 0),
+          total: Number(a.total || 10),
+          time: fmtDuration(a.durationMs),
+          pass: Number(a.total) > 0 && Number(a.score) / Number(a.total) >= 0.8,
+          finishedAt: Number(a.finishedAt || 0)
+        };
+      });
+      const best = quizzes.reduce(function(max,q){ return Math.max(max, q.score); }, 0);
+      const days = Array.from(new Set(quizzes.map(function(q){
+        return q.finishedAt ? new Date(q.finishedAt).toISOString().slice(0,10) : "";
+      }).filter(Boolean))).sort().reverse();
+      let streak = 0;
+      if (days.length) {
+        const cursor = new Date(); cursor.setHours(0,0,0,0);
+        const today = cursor.toISOString().slice(0,10);
+        const yesterdayDate = new Date(cursor); yesterdayDate.setDate(yesterdayDate.getDate()-1);
+        const yesterday = yesterdayDate.toISOString().slice(0,10);
+        if (days[0] === today || days[0] === yesterday) {
+          let expected = days[0] === today ? cursor : yesterdayDate;
+          for (const day of days) {
+            if (day !== expected.toISOString().slice(0,10)) break;
+            streak++;
+            expected.setDate(expected.getDate()-1);
+          }
+        }
+      }
+      return {
+        user: {name: me.user.nama || me.user.name || "Peserta"},
+        best: best,
+        streak: streak,
+        quizzes: quizzes,
+        board: {sholat: board.map(function(r){
+          return {name:r.nama || "Peserta", score:Number(r.score||0)+"/"+Number(r.total||10),
+                  time:fmtDuration(r.durationMs), me:!!r.me, rank:r.rank};
+        })}
+      };
+    });
+  });
+}
+function fmtDuration(ms){
+  const seconds = Math.max(0, Math.round(Number(ms || 0) / 1000));
+  return Math.floor(seconds / 60) + ":" + String(seconds % 60).padStart(2, "0");
+}
+
+/* ===== Render ===== */
+const $ = id => document.getElementById(id);
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+
+/* materi */
+$("materiList").innerHTML = MATERI.length
+  ? MATERI.map(m =>
+      '<a class="mat" href="'+esc(m.href)+'">'+
+        '<div class="ic ar" aria-hidden="true">'+esc(m.ar)+'</div>'+
+        '<div><h3>'+esc(m.name)+'</h3><div class="m">'+esc(m.desc)+'</div></div>'+
+        '<div class="side"><span class="tag ok">'+esc(m.tag)+'</span></div>'+
+      '</a>'
+    ).join("") + '<p class="empty">Materi lainnya akan ditambahkan.</p>'
+  : '<p class="empty">Belum ada materi.</p>';
+$("sMateri").textContent = MATERI.length;
+if (MATERI[0]) $("startBtn").href = MATERI[0].href;
+
+/* data pengguna */
+loadData().then(d=>{
+  $("uname").textContent = d.user.name;
+  $("avatar").textContent = d.user.name.charAt(0).toUpperCase();
+  $("sBest").textContent = d.quizzes.length ? d.best + "/10" : "0/10";
+  $("sQuiz").textContent = d.quizzes.length;
+  $("sStreak").textContent = d.streak;
+
+  $("quizBox").innerHTML = d.quizzes.length
+    ? '<div class="tablewrap"><table><thead><tr><th>Tanggal</th><th>Materi</th><th>Skor</th><th>Waktu</th><th>Status</th></tr></thead><tbody>'+
+      d.quizzes.map(q=>{
+        const m = MATERI.find(x=>x.id===q.materi);
+        return '<tr><td>'+esc(q.date)+'</td><td>'+esc(m?m.short:q.materi||"-")+'</td><td class="n">'+q.score+'</td><td>'+esc(q.time)+'</td>'+
+        '<td><span class="tag '+(q.pass?'ok':'')+'">'+(q.pass?'Lulus':'Ulangi')+'</span></td></tr>';
+      }).join("")+'</tbody></table></div>'
+    : '<p class="empty">Belum ada kuis yang dikerjakan.</p>';
+
+  /* peringkat per materi */
+  let current = MATERI.length ? MATERI[0].id : null;
+  function renderBoard(){
+    $("lbPick").innerHTML = MATERI.map(m =>
+      '<button class="chip" type="button" data-id="'+esc(m.id)+'" aria-pressed="'+(m.id===current)+'">'+esc(m.short||m.name)+'</button>'
+    ).join("");
+    const rows = (d.board && d.board[current]) || [];
+    $("lbBox").innerHTML = rows.length
+      ? '<ol class="lb">'+rows.map((b,i)=>
+          '<li class="'+(b.me?'me':'')+'"><span class="rank">'+(i+1)+'</span><div><b>'+esc(b.name)+'</b><div class="t">Skor terbaik, waktu '+esc(b.time)+'</div></div><b>'+b.score+'</b></li>'
+        ).join("")+'</ol>'
+      : '<p class="empty">Belum ada peserta di peringkat materi ini.</p>';
+  }
+  $("lbPick").addEventListener("click", e=>{
+    const b = e.target.closest("button[data-id]");
+    if (!b) return;
+    current = b.dataset.id;
+    renderBoard();
+  });
+  renderBoard();
+}).catch(function(err){
+  $("uname").textContent = "Peserta";
+  $("avatar").textContent = "P";
+  $("sBest").textContent = "—";
+  $("sQuiz").textContent = "—";
+  $("sStreak").textContent = "—";
+  $("quizBox").innerHTML = '<p class="empty">Data belum dapat dimuat. ' + esc(err.message) + '</p>';
+  $("lbBox").innerHTML = '<p class="empty">Peringkat belum dapat dimuat.</p>';
+});
+
+/* ===== Tema ===== */
+(function(){
+  const root=document.documentElement, btn=$("tTheme");
+  const sys=()=>matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";
+  let saved=null; try{saved=localStorage.getItem("theme")}catch(e){}
+  function apply(t){root.setAttribute("data-theme",t);btn.textContent=t==="dark"?"Mode terang":"Mode gelap"}
+  apply(saved||sys());
+  btn.addEventListener("click",()=>{
+    const n=root.getAttribute("data-theme")==="dark"?"light":"dark";
+    apply(n); try{localStorage.setItem("theme",n)}catch(e){}
+  });
+})();
+</script>
+</body>
+</html>

@@ -14,7 +14,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 <script src="js/gate.js"></script>
-
+<style>
+  /* Tombol dashboard menyatu dengan area akun di header */
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .topbar-actions { display: flex; align-items: center; justify-content: flex-end; gap: 10px; flex-wrap: wrap; }
+  .dashboard-back {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 42px; padding: 10px 16px; box-sizing: border-box;
+    border: 1px solid #B98A2E; border-radius: 14px;
+    background: #16204A; color: #fff; font: inherit; font-weight: 700;
+    line-height: 1.2; text-decoration: none; white-space: nowrap;
+    transition: background-color .18s ease, border-color .18s ease, transform .18s ease;
+  }
+  .dashboard-back:hover { background: #26366F; border-color: #D7B45A; transform: translateY(-1px); }
+  .dashboard-back:focus-visible { outline: 3px solid #B98A2E; outline-offset: 3px; }
+  .topbar-actions .account { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  @media (max-width: 520px) {
+    .topbar { align-items: flex-start; }
+    .topbar-actions { width: 100%; justify-content: flex-start; }
+    .dashboard-back { min-height: 40px; padding: 9px 12px; border-radius: 12px; font-size: .92rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { .dashboard-back { transition: none; } }
+</style>
 </head>
 <body data-latin="on" data-arti="on">
 <div class="wrap">
@@ -22,7 +43,11 @@
 <header class="top">
   <div class="topbar">
     <a class="brand site-brand" href="/" aria-label="kitamenuju — Panduan Sholat"><img class="site-logo" src="assets/logo.png" alt="kitamenuju"></a>
-    <div class="account" id="account" aria-live="polite"></div>
+    <div class="topbar-actions">
+      <a class="dashboard-back" href="/dashboard.html"><span aria-hidden="true">←</span> Dashboard</a>
+      <a class="dashboard-back" href="https://madrasah-digital-by-kitamenuju.panduan-sholat-aksara26.workers.dev/login">Login</a>
+      <div class="account" id="account" aria-live="polite"></div>
+    </div>
   </div>
   <h1>Tata cara sholat, dari niat sampai salam</h1>
   <p class="lead">Pilih sholat, lalu ikuti langkahnya satu per satu: gerakan, bacaan Arab, latin, dan artinya. Disusun mengikuti mazhab Syafi'i, yang paling umum di Indonesia.</p>
@@ -87,19 +112,7 @@
     <h2 id="rukunH">13 rukun sholat menurut mazhab Syafi'i</h2>
     <p>Jika satu rukun tertinggal, sholat tidak sah. Mazhab Syafi'i menghitung 13 rukun, atau 17 jika setiap tuma'ninah (tenang sejenak) dihitung terpisah.</p>
     <ol class="rules">
-      <li>Niat</li>
-      <li>Berdiri bagi yang mampu (pada sholat fardhu)</li>
-      <li>Takbiratul ihram</li>
-      <li>Membaca Al-Fatihah pada setiap rakaat</li>
-      <li>Rukuk dengan tuma'ninah</li>
-      <li>I'tidal dengan tuma'ninah</li>
-      <li>Sujud dua kali dengan tuma'ninah</li>
-      <li>Duduk di antara dua sujud dengan tuma'ninah</li>
-      <li>Duduk pada tahiyat akhir</li>
-      <li>Membaca tahiyat akhir</li>
-      <li>Membaca shalawat kepada Nabi pada tahiyat akhir</li>
-      <li>Salam pertama</li>
-      <li>Tertib, yaitu mengerjakan rukun sesuai urutannya</li>
+      <li>Niat</li><li>Berdiri bagi yang mampu (pada sholat fardhu)</li><li>Takbiratul ihram</li><li>Membaca Al-Fatihah pada setiap rakaat</li><li>Rukuk dengan tuma'ninah</li><li>I'tidal dengan tuma'ninah</li><li>Sujud dua kali dengan tuma'ninah</li><li>Duduk di antara dua sujud dengan tuma'ninah</li><li>Duduk pada tahiyat akhir</li><li>Membaca tahiyat akhir</li><li>Membaca shalawat kepada Nabi pada tahiyat akhir</li><li>Salam pertama</li><li>Tertib, yaitu mengerjakan rukun sesuai urutannya</li>
     </ol>
   </section>
 
@@ -107,14 +120,7 @@
     <section class="block" aria-labelledby="batalH">
       <h2 id="batalH">Hal yang membatalkan sholat</h2>
       <p>Yang umum dijelaskan para ulama. Batasan rincinya berbeda antar mazhab.</p>
-      <ul class="plain">
-        <li>Berbicara dengan sengaja di luar bacaan sholat.</li>
-        <li>Gerakan banyak yang berturut-turut tanpa uzur.</li>
-        <li>Hadats, misalnya batal wudhu.</li>
-        <li>Makan atau minum dengan sengaja.</li>
-        <li>Berpaling dari arah kiblat tanpa uzur.</li>
-        <li>Meninggalkan rukun atau syarat sah.</li>
-      </ul>
+      <ul class="plain"><li>Berbicara dengan sengaja di luar bacaan sholat.</li><li>Gerakan banyak yang berturut-turut tanpa uzur.</li><li>Hadats, misalnya batal wudhu.</li><li>Makan atau minum dengan sengaja.</li><li>Berpaling dari arah kiblat tanpa uzur.</li><li>Meninggalkan rukun atau syarat sah.</li></ul>
     </section>
     <section class="block" aria-labelledby="uzurH">
       <h2 id="uzurH">Jika tidak mampu berdiri</h2>
@@ -163,6 +169,5 @@
 <script src="js/google-auth.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/quiz.js"></script>
-
 </body>
 </html>

@@ -136,8 +136,6 @@ submit(panels.register, "Buat akun", function(f){
   if (!EMAIL_RE.test(email)) { fail(f, "Isi email dengan format yang benar.", "email"); return null; }
   if (pw.length < 8) { fail(f, "Password minimal 8 karakter.", "password"); return null; }
   return API.post("/api/register", { nama: nama, email: email, password: pw }).then(function(){
-    /* Perbaikan: baris yang mengisi #regEmail dihapus karena elemennya
-       sudah tidak ada di login.html (penyebab error textContent null). */
     f.reset();
     show("registered");
   });
@@ -155,8 +153,14 @@ submit(panels.forgot, "Kirim tautan", function(f){
 
 $("#goNext").addEventListener("click", function(){ location.replace(next); });
 
-/* Sudah masuk? langsung ke tujuan */
-API.get("/api/me").then(function(r){ if (r.user && panels.registered.hidden) location.replace(next); }).catch(function(){});
+/* Sudah masuk? langsung ke tujuan, KECUALI login dibuka sengaja (?force=1).
+   Tautan "Masuk" / "Ganti akun" di halaman utama harus memakai &force=1. */
+var forceLogin = new URLSearchParams(location.search).get("force") === "1";
+if (!forceLogin){
+  API.get("/api/me").then(function(r){
+    if (r.user && panels.registered.hidden) location.replace(next);
+  }).catch(function(){});
+}
 })();
 
 
